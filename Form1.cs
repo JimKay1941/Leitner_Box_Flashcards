@@ -15,12 +15,12 @@ namespace Leitner_Box_Flashcards
     {
         short _currentCardNumber = 1;
         private StreamWriter OutputLine;
-        string blk1 = @"    <Word ID=""";
-        string blk2 = @""" Question=""";
-        string blk3 = @""" Answer=""";
-        string blk4 = @""" Date=""";
-        string blk5 = @""" />";
-        DateTime localDate = DateTime.Now;
+        readonly string blk1 = @"    <Word ID=""";
+        readonly string blk2 = @""" Question=""";
+        readonly string blk3 = @""" Answer=""";
+        readonly string blk4 = @""" Date=""";
+        readonly string blk5 = @""" />";
+        DateTime _localDate = DateTime.Now;
 
         private readonly OpenFileDialog _chooseOutputFileDialog = new OpenFileDialog();
         public Form1()
@@ -32,8 +32,8 @@ namespace Leitner_Box_Flashcards
         {
             OutputFileName.Text = _chooseOutputFileDialog.FileName;
 
-            FileStream Writing = new FileStream(OutputFileName.Text, FileMode.Append, FileAccess.Write, FileShare.None);
-            OutputLine = new StreamWriter(Writing, UTF8Encoding.UTF8);
+            FileStream writing = new FileStream(OutputFileName.Text, FileMode.Append, FileAccess.Write, FileShare.None);
+            OutputLine = new StreamWriter(writing, Encoding.UTF8);
 
             if (OutputLine == null)
             {
@@ -49,21 +49,25 @@ namespace Leitner_Box_Flashcards
 
         private void Button6_Click(object sender, EventArgs e)
         {
-            if (OutputLine != null)
-            {
-                OutputLine.Close();
-            }
+            OutputLine?.Close();
             Close();
         }
 
         private void Button5_Click(object sender, EventArgs e)
         {
+            textBox4.Text = @"";
+
+            if (OutputFileName.Text == "")
+            {
+                textBox4.Text = @"Output File path and name are missing";
+                return;
+            }
+
             if (textBox1.Text == "")
             {
                 textBox4.Text = @"Current Card Number is Empty!";
                 return;
             }
-
 
             _currentCardNumber = Convert.ToInt16(textBox1.Text);
             if (_currentCardNumber < 1)
@@ -98,14 +102,14 @@ namespace Leitner_Box_Flashcards
 
 
 
-            localDate = DateTime.Now;
+            _localDate = DateTime.Now;
 
             textBox2.Text = textBox2.Text.Replace("\n", "&#xD;&#xA;");
             textBox2.Text = textBox2.Text.Replace("\r", "");
             textBox3.Text = textBox3.Text.Replace("\n", "&#xD;&#xA;");
             textBox3.Text = textBox3.Text.Replace("\r", "");
 
-            string outputLine = blk1 + textBox1.Text + blk2 + textBox2.Text + blk3 + textBox3.Text + blk4 + localDate + blk5;
+            string outputLine = blk1 + textBox1.Text + blk2 + textBox2.Text + blk3 + textBox3.Text + blk4 + _localDate + blk5;
 
             OutputLine.WriteLine(outputLine);
             _currentCardNumber += 1;
