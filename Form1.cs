@@ -49,7 +49,9 @@ namespace Leitner_Box_Flashcards
 
         private void Button6_Click(object sender, EventArgs e)
         {
-            OutputLine?.Close();
+            if (OutputLine != null)
+                OutputLine.Close();
+
             Close();
         }
 
@@ -104,8 +106,13 @@ namespace Leitner_Box_Flashcards
 
             _localDate = DateTime.Now;
 
+            textBox2.Text = textBox2.Text.Replace("<", "&lt;");
+            textBox2.Text = textBox2.Text.Replace(">", "&gt;");
             textBox2.Text = textBox2.Text.Replace("\n", "&#xD;&#xA;");
             textBox2.Text = textBox2.Text.Replace("\r", "");
+
+            textBox3.Text = textBox3.Text.Replace("<", "&lt;");
+            textBox3.Text = textBox3.Text.Replace(">", "&gt;");
             textBox3.Text = textBox3.Text.Replace("\n", "&#xD;&#xA;");
             textBox3.Text = textBox3.Text.Replace("\r", "");
 
