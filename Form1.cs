@@ -40,6 +40,8 @@ namespace Leitner_Box_Flashcards
                 textBox4.Text = @"Output File is Invalid!";
                 return;
             }
+
+            OutputLine.AutoFlush = true;
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -123,6 +125,11 @@ namespace Leitner_Box_Flashcards
             textBox1.Text = _currentCardNumber.ToString();
             textBox2.Text = @"";
             textBox3.Text = @"";
+        }
+
+        private void TextBox2_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
